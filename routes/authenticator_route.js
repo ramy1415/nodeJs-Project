@@ -11,8 +11,13 @@ authenticator.get('/middleware',(req,res)=>{
 authenticator.use(express.urlencoded({extended:true}));
 
 authenticator.get('/login',(request,response)=>{
-    response.sendFile(path.join(__dirname, '../', 'login.html'));
+    // response.sendFile(path.join(__dirname, '../', 'login.html'));
+    response.render('login.ejs')
 });
+
+authenticator.get('/register',(request,response)=>{
+    response.render('register.ejs')
+})
 
 authenticator.post('/login',(req,res)=>{
     if(req.body.userName=="eman"&&req.body.userPass=="123")
