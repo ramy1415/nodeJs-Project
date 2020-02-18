@@ -33,6 +33,7 @@ events_route.post('/add', (request, response) => {
 
 events_route.get('/list', (request, response) => {
     events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
+
         if (error) return handleError(error);
         response.render('events/list.ejs',{events_details})
     })
