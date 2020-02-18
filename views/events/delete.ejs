@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detele speaker Page</title>
+    <style>
+        html,body {
+        height: 100%
+        }
+    </style>
+</head>
+<body>
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <form class="col" action="/event/delete" method="POST">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Events</label>
+                  <select class="custom-select" name="_id">
+                    <option selected disabled>Open this select menu</option>
+                    <% events.forEach((event)=>{ %>
+                      <option value=<%= event._id %>> <%= event.title %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Delete</button>
+              </form>
+        </div>
+    </div>
+    
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<script src="/js/bootstrap.min.js"></script>
+</html>

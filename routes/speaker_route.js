@@ -12,16 +12,16 @@ speaker.get('/profile',(request,response)=>{
 })
 speaker.get('/add',(request,response)=>{
     // response.sendFile(path.join(__dirname, '../', 'views/add.html'));
-    response.render('register.ejs')
+    response.render('speakers/register.ejs')
 })
 speaker.post('/add',(request,response)=>{
     let newSpeaker=new mongoose.model('speaker')(
         request.body
     )
     newSpeaker.save().then((data)=>{
-        console.log("saved")
+        response.send("saved")
     }).catch((error)=>{
-        console.log(""+error)
+        response.send(error+"")
     })
 })
 speaker.get('/list',(request,response)=>{
@@ -38,10 +38,18 @@ speaker.post('/edit',(request,response)=>{
         // db.close();
       })
 })
+speaker.get('/delete',(request,response)=>{
+    mongoose.model('speaker').find({},{_id:1,UserName:1}).then((speakers)=>{
+        response.render('speakers/delete.ejs',{speakers})
+    }).catch((error)=>{
+        response.send(""+error)
+    })
+})
+
 speaker.post('/delete',(request,response)=>{
     mongoose.model('speaker').deleteOne({ _id: request.body._id }, function(err, obj) {
         if (err) throw err;
-        console.log("1 document deleted");
+        response.send('deleted')
       })
 })
 module.exports=speaker

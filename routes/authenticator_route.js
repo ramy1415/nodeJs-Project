@@ -1,7 +1,10 @@
 const express=require('express');
 const authenticator=express.Router();
 const path=require('path')
-authenticator.use(express.static('.'))
+const mongoose=require('mongoose')
+require('../model/speakerModel')
+let speakers = mongoose.model('speaker');
+// authenticator.use(express.static('.'))
 
 
 authenticator.get('/middleware',(req,res)=>{
@@ -11,21 +14,29 @@ authenticator.get('/middleware',(req,res)=>{
 authenticator.use(express.urlencoded({extended:true}));
 
 authenticator.get('/login',(request,response)=>{
-    // response.sendFile(path.join(__dirname, '../', 'login.html'));
-    response.render('login.ejs')
+
+    response.render('speakers/login.ejs')
 });
 
 authenticator.get('/register',(request,response)=>{
     response.render('register.ejs')
 })
 
-authenticator.post('/login',(req,res)=>{
-    if(req.body.userName=="eman"&&req.body.userPass=="123")
-        res.redirect('/admin/profile')
-    else if(req.body.userName=="ramy"&&req.body.userPass=="123")
-        res.redirect('/speaker/profile')
-    else
-        res.redirect('/login')
+authenticator.post('/login',(req,response)=>{
+
+    
+    if(req.body.UserName=="eman"&&req.body.Password=="123"){
+        response.redirect('/admin/profile')
+        return;
+    }
+    speakers.findOne({UserName:req.body.UserName,Password:req.body.Password}).then((speaker)=>{
+        if(speaker)
+            response.redirect('/speaker/profile')
+        else
+            response.redirect('/login')
+    }).catch((error)=>{
+        console.log(error+"")
+    })
 })
 
 module.exports=authenticator;

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    html,
+    body {
+      height: 100%
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>_id</th>
+                  <th>title</th>
+                  <th>event_date</th>
+                  <th>mainSpeaker</th>
+                  <th>otherSpeakers</th>
+                  <th>edit</th>
+                  <th>delete</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% events_details.forEach((event)=>{ %>
+              <tr scope="row">
+                <td><%=event._id %></td>
+                <td><%=event.title %></td>
+                <td><%=event.event_date %></td>
+                <td><%=event.mainSpeaker.UserName %></td>
+                <% let otherSpeaakersArr=[] %>
+                <% event.otherSpeakers.forEach((otherSpeaker)=>{ %>
+                <% otherSpeaakersArr.push(otherSpeaker.UserName) %>
+                <%})%>
+                <td><%= otherSpeaakersArr %></td>
+                <td><a name=<%=event._id %> class="btn btn-primary" href="/event/editthis/<%=event._id %>" role="button">edit</a></td>
+                <td><a name=<%=event._id %> class="btn btn-primary" href="/event/remove/<%=event._id %>" role="button">delete</a></td>
+              </tr>
+            <% }) %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<script src="/js/bootstrap.min.js"></script>
+</html>
