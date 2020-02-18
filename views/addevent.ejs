@@ -28,23 +28,27 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">mainSpeaker</label>
-                  <input type="text" name="mainSpeaker" class="form-control" id="exampleInputPassword1">
+                  <select class="custom-select" name="mainSpeaker">
+                    <option selected disabled>Open this select menu</option>
+                    <% data.forEach((speaker)=>{ %>
+                      <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+                    <% }) %>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">otherSpeakers</label>
                   <select class="custom-select" name="otherSpeakers" multiple>
-                    <option selected>Open this select menu</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                    <% data.forEach((speaker)=>{ %>
+                      <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+                    <% }) %>
                   </select>
                 </div>
                 <button type="submit" class="btn btn-primary">add</button>
               </form>
         </div>
     </div>
-    
 </body>
+    <script src="js/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
 </html>

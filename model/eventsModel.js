@@ -6,7 +6,7 @@ let eventsSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    event_date:Date,
+    event_date:String,
     mainSpeaker:{
         type:Number,
         ref:'speaker'
