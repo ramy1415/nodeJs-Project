@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>speakers list Page</title>
+  <style>
+    html,
+    body {
+      height: 100%
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/nav.ejs') %>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>_id</th>
+                  <th>FullName</th>
+                  <th>UserName</th>
+                  <th>Password</th>
+                  <th>city</th>
+                  <th>street</th>
+                  <th>building</th>
+                  <th>edit</th>
+                  <th>delete</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% speakers_details.forEach((speaker)=>{ %>
+              <tr scope="row">
+                <td><%=speaker._id %></td>
+                <td><%=speaker.FullName %></td>
+                <td><%=speaker.UserName %></td>
+                <td><%=speaker.Password %></td>
+                <td><%=speaker.Address.city %></td>
+                <td><%=speaker.Address.street %></td>
+                <td><%=speaker.Address.building %></td>
+                <td><a name=<%=speaker._id %> class="btn btn-primary" href="/speaker/editthis/<%=speaker._id %>" role="button">edit</a></td>
+                <td><a name=<%=speaker._id %> class="btn btn-primary" href="/speaker/remove/<%=speaker._id %>" role="button">delete</a></td>
+              </tr>
+            <% }) %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+<script src="/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<script src="/js/bootstrap.min.js"></script>
+</html>

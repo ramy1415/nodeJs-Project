@@ -8,9 +8,24 @@ let events = mongoose.model('events');
 let speakers = mongoose.model('speaker');
 events_route.use(express.urlencoded({ extended: true }))
 
+events_route.use((request,response,next)=>{
+    response.locals.UserName=request.session.UserName
+    next()
+})
 
+events_route.get('/list', (request, response) => {
+    events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
 
-
+        if (error) return handleError(error);
+        response.render('events/list.ejs',{events_details})
+    })
+})
+events_route.use((request,response,next)=>{
+    if(request.session.role=="admin")
+        next()
+    else
+        response.redirect('/speaker/profile')
+})
 events_route.get('/add', (request, response) => {
     speakers.find({}).then((data) => {
         response.render('events/addevent.ejs', { data })
@@ -30,17 +45,6 @@ events_route.post('/add', (request, response) => {
         console.log("" + error)
     });
 })
-
-events_route.get('/list', (request, response) => {
-    events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
-
-        if (error) return handleError(error);
-        response.render('events/list.ejs',{events_details})
-    })
-})
-
-
-
 events_route.get('/edit', (request, response) => {
     events.find({}, { _id: 1,title:1 }).then((events_data) => {
         response.render('events/editevents.ejs', { events_data })
