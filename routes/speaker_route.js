@@ -4,7 +4,6 @@ speaker.use(express.static('.'))
 require('../model/speakerModel')
 let mongoose=require('mongoose');
 const path=require('path')
-speaker.use(express.urlencoded({extended:true}));
 
 
 speaker.use((request,response,next)=>{
@@ -80,6 +79,14 @@ speaker.get('/remove/:_id',(request,response)=>{
         response.redirect('/speaker/list')
       })
 })
+speaker.post('/remove',(request,response)=>{
+    let id=request.body.id
+    mongoose.model('speaker').deleteOne({ _id: id }).then((success)=>{
+        response.send(success)
+    }).catch((error)=>{
+        console.log(error)
+    })
+})
 
 speaker.post('/delete',(request,response)=>{
     mongoose.model('speaker').deleteOne({ _id: request.body._id }, function(err, obj) {
@@ -101,7 +108,6 @@ speaker.get('/edit', (request, response) => {
 
 speaker.post('/edit', (request, response) => {
     let id=request.body._id
-    console.log(id)
     mongoose.model('speaker').findOne({ _id: id }).then((data)=>{
         response.render('speakers/editthis.ejs',{data})
     })

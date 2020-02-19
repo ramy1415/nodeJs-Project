@@ -41,7 +41,7 @@
                 <td><%=speaker.Address.street %></td>
                 <td><%=speaker.Address.building %></td>
                 <td><a name=<%=speaker._id %> class="btn btn-primary" href="/speaker/editthis/<%=speaker._id %>" role="button">edit</a></td>
-                <td><a name=<%=speaker._id %> class="btn btn-primary" href="/speaker/remove/<%=speaker._id %>" role="button">delete</a></td>
+                <td><a id="del" onclick="delspeaker(<%= speaker._id %>,this)" name=<%=speaker._id %> class="btn btn-primary"  role="button">delete</a></td>
               </tr>
             <% }) %>
           </tbody>
@@ -50,6 +50,25 @@
   </div>
 
 </body>
+<script>
+  function delspeaker(idd,button){
+    $.ajax({
+      url:"http://localhost:8082/speaker/remove",
+      method:"POST",
+      contentType:"application/json", 
+      data:JSON.stringify({id:idd}), 
+      dataType:"json", 
+      success:function(result){ 
+        console.log(button)
+        $(button).parents('tr').remove()
+      }, 
+      error:function(error){
+        console.log('fail')
+      }
+
+    })
+  }
+</script>
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>

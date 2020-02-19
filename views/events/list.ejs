@@ -34,14 +34,24 @@
                 <td><%=event._id %></td>
                 <td><%=event.title %></td>
                 <td><%=event.event_date %></td>
-                <td><%=event.mainSpeaker %></td>
+                
+                <%if(event.mainSpeaker){ %>
+                <td><%=event.mainSpeaker.UserName %></td>
+                <% }else{ %>
+                  <td></td>
+                  <% } %>
+
                 <% let otherSpeaakersArr=[] %>
+                <%if(event.otherSpeakers){ %>
                 <% event.otherSpeakers.forEach((otherSpeaker)=>{ %>
                 <% otherSpeaakersArr.push(otherSpeaker.UserName) %>
                 <%})%>
-                <td><%= otherSpeaakersArr %></td>
+                <td><% otherSpeaakersArr.forEach((other)=>{ %>
+                  <li><%= other %> </li>
+                  <% }) %></td>
+                <% } %>
                 <td><a name=<%=event._id %> class="btn btn-primary" href="/event/editthis/<%=event._id %>" role="button">edit</a></td>
-                <td><a name=<%=event._id %> class="btn btn-primary" href="/event/remove/<%=event._id %>" role="button">delete</a></td>
+                <td><a id="del" onclick="delEvent(<%=event._id%>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">delete</a></td>
               </tr>
             <% }) %>
           </tbody>
@@ -50,6 +60,25 @@
   </div>
 
 </body>
+<script>
+  function delEvent(idd,button){
+    $.ajax({
+      url:"http://localhost:8082/event/remove",
+      method:"POST",
+      contentType:"application/json", 
+      data:JSON.stringify({id:idd}), 
+      dataType:"json", 
+      success:function(result){ 
+        console.log(button)
+        $(button).parents('tr').remove()
+      }, 
+      error:function(error){
+        console.log('fail')
+      }
+
+    })
+  }
+</script>
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>

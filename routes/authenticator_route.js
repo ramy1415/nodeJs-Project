@@ -7,8 +7,6 @@ let speakers = mongoose.model('speaker');
 
 
 
-authenticator.use(express.urlencoded({extended:true}));
-
 authenticator.get('/login',(request,response)=>{
     response.render('speakers/login.ejs')
 });

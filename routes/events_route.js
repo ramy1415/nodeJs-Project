@@ -6,7 +6,6 @@ require('../model/eventsModel')
 require('../model/speakerModel')
 let events = mongoose.model('events');
 let speakers = mongoose.model('speaker');
-events_route.use(express.urlencoded({ extended: true }))
 
 events_route.use((request,response,next)=>{
     response.locals.UserName=request.session.UserName
@@ -90,15 +89,24 @@ events_route.get('/delete',(request,response)=>{
     })
 })
 
-events_route.get('/remove/:_id',(request,response)=>{
-    let id=request.params._id
-    mongoose.model('events').deleteOne({ _id: id}, function(err, obj) {
-        if (err) throw err;
-        events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
-            if (error) return handleError(error);
-            response.render('events/list.ejs',{events_details})
-        })
-      })
+// events_route.get('/remove/:_id',(request,response)=>{
+//     let id=request.params._id
+//     mongoose.model('events').deleteOne({ _id: id}, function(err, obj) {
+//         if (err) throw err;
+//         events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
+//             if (error) return handleError(error);
+//             response.render('events/list.ejs',{events_details})
+//         })
+//       })
+// })
+
+events_route.post('/remove',(request,response)=>{
+    let id=request.body.id
+    mongoose.model('events').deleteOne({_id:id}).then((success)=>{
+        response.send(success)
+    }).catch((error)=>{
+        console.log(error+"")
+    })
 })
 
 
@@ -114,7 +122,6 @@ events_route.post('/delete',(request,response)=>{
 })
 
 events_route.post('/editthis',(request,response)=>{
-    console.log(request.body)
     mongoose.model('events').updateOne({_id:request.body._id},{ $set: {
         title:request.body.title,
         event_date:request.body.event_date,
