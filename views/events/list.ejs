@@ -12,8 +12,8 @@
     }
   </style>
 </head>
-
 <body>
+  <%- include('../partials/nav.ejs') %>
   <div class="container h-100">
     <div class="row h-100 align-items-center">
       <table class="table">
@@ -34,7 +34,7 @@
                 <td><%=event._id %></td>
                 <td><%=event.title %></td>
                 <td><%=event.event_date %></td>
-                <td><%=event.mainSpeaker.UserName %></td>
+                <td><%=event.mainSpeaker %></td>
                 <% let otherSpeaakersArr=[] %>
                 <% event.otherSpeakers.forEach((otherSpeaker)=>{ %>
                 <% otherSpeaakersArr.push(otherSpeaker.UserName) %>
@@ -50,7 +50,7 @@
   </div>
 
 </body>
-<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
 </html>

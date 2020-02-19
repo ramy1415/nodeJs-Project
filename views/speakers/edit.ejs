@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit event Page</title>
+    <style>
+        html,body {
+        height: 100%
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/nav.ejs') %>
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <form class="col" action="/speaker/edit" method="POST">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Speakers</label>
+                  <select class="custom-select" name="_id">
+                    <option selected disabled>Open this select menu</option>
+                    <% speakers_data.forEach((speaker)=>{ %>
+                      <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+              </form>
+        </div>
+    </div>
+    
+</body>
+<script src="/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<script src="/js/bootstrap.min.js"></script>
+</html>
