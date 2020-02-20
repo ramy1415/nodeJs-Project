@@ -17,11 +17,11 @@
     <%- include('../partials/nav.ejs') %>
     <div class="container h-100">
         <div class="row h-100 align-items-center">
-            <form class="col" action="/event/editthis" method="POST">
+            <form class="col" action="/admin/event/editthis" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">_Id</label>
-                    <input type="text" readonly value="<%= data._id %>" name="_id" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                    <input type="text" readonly value="<%= data._id %>" name="_id" class="form-control"
+                        id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">title</label>
@@ -51,6 +51,7 @@
                     <select class="custom-select" name="otherSpeakers" multiple>
                         <% speakers.forEach((speaker)=>{%>
                         <%    let selected=false;%>
+                        <%    if(data.otherSpeakers){  %>
                         <%    data.otherSpeakers.forEach((otherSpeaker)=>{%>
                         <%        if(otherSpeaker==speaker._id){%>
                         <%           selected=true;%>
@@ -61,6 +62,10 @@
                         <%}else{%>
                         <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
                         <%}%>
+                        <%}else{%>
+                            <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+                        <%  }   %>
+
                         <%})%>
                     </select>
                 </div>
@@ -73,4 +78,5 @@
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
+
 </html>

@@ -32,14 +32,14 @@ authenticator.post('/login',(request,response,next)=>{
     if(request.body.UserName=="eman"&&request.body.Password=="123"){
         request.session.role="admin"
         request.session.UserName=request.body.UserName
-        response.redirect('/speaker/profile')
+        response.redirect('/admin/profile')
         return;
     }
     speakers.findOne({UserName:request.body.UserName,Password:request.body.Password}).then((speaker)=>{
         if(speaker){
             request.session.role="speaker"
             request.session.UserName=request.body.UserName
-            response.redirect('/speaker/profile')
+            response.redirect('/user/profile')
         }
         else
             response.redirect('/login')

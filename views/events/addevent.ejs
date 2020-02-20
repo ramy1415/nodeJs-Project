@@ -1,55 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add event Page</title>
-    <style>
-        html,body {
-        height: 100%
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add event Page</title>
+  <style>
+    html,
+    body {
+      height: 100%
+    }
+  </style>
 </head>
+
 <body>
-    <%- include('../partials/nav.ejs') %>
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <form class="col" action="/event/add" method="POST">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">_Id</label>
-                  <input type="text" name="_id" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">title</label>
-                  <input type="text" name="title" class="form-control" id="exampleInputPassword1">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">event_date</label>
-                  <input type="date" name="event_date" class="form-control" id="exampleInputPassword1">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">mainSpeaker</label>
-                  <select class="custom-select" name="mainSpeaker">
-                    <option selected disabled>Open this select menu</option>
-                    <% data.forEach((speaker)=>{ %>
-                      <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
-                    <% }) %>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">otherSpeakers</label>
-                  <select class="custom-select" name="otherSpeakers" multiple>
-                    <% data.forEach((speaker)=>{ %>
-                      <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
-                    <% }) %>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary">add</button>
-              </form>
+  <%- include('../partials/nav.ejs') %>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <form class="col" action="/admin/event/add" method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1">_Id</label>
+          <input type="text" id="id" name="_id" class="form-control" id="exampleInputEmail1"
+            aria-describedby="emailHelp">
         </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">title</label>
+          <input type="text" name="title" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">event_date</label>
+          <input type="date" name="event_date" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">mainSpeaker</label>
+          <select class="custom-select" name="mainSpeaker">
+            <option selected disabled>Open this select menu</option>
+            <% data.forEach((speaker)=>{ %>
+            <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">otherSpeakers</label>
+          <select class="custom-select" name="otherSpeakers" multiple>
+            <% data.forEach((speaker)=>{ %>
+            <option value=<%= speaker._id %>> <%= speaker.UserName %></option>
+            <% }) %>
+          </select>
+        </div>
+        <button onclick="addevent()" class="btn btn-primary">add</button>
+      </form>
     </div>
+  </div>
 </body>
+
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
+<script>
+  function addevent() {
+    idd = $("#id").val()
+    $.ajax({
+      url: "http://localhost:8080/admin/event/add",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({id:idd}),
+      dataType: "json",
+      success: function (result) { 
+       },
+      error: function (error) {
+        alert("failed to add")
+       }
+    })
+  }
+</script>
+
 </html>

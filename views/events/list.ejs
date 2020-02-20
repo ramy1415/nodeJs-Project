@@ -49,8 +49,10 @@
                 <td><% otherSpeaakersArr.forEach((other)=>{ %>
                   <li><%= other %> </li>
                   <% }) %></td>
+                <% }else{ %>
+                  <td></td>
                 <% } %>
-                <td><a name=<%=event._id %> class="btn btn-primary" href="/event/editthis/<%=event._id %>" role="button">edit</a></td>
+                <td><a name=<%=event._id %> class="btn btn-primary" href="/admin/event/editthis/<%=event._id %>" role="button">edit</a></td>
                 <td><a id="del" onclick="delEvent(<%=event._id%>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">delete</a></td>
               </tr>
             <% }) %>
@@ -58,20 +60,18 @@
       </table>
     </div>
   </div>
-
 </body>
-<<<<<<< HEAD
 <script>
   function delEvent(idd,button){
     $.ajax({
-      url:"http://localhost:8082/event/remove",
+      url:"http://localhost:8082/admin/event/remove",
       method:"POST",
       contentType:"application/json", 
       data:JSON.stringify({id:idd}), 
       dataType:"json", 
       success:function(result){ 
         console.log(button)
-        $(button).parents('tr').remove()
+        $(button).parents('tr').hide('slow')
       }, 
       error:function(error){
         console.log('fail')
@@ -80,8 +80,6 @@
     })
   }
 </script>
-=======
->>>>>>> b7f22253336a7a0dd559f4e0fe40f5e8869d84f2
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>

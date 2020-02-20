@@ -3,6 +3,7 @@ const server=express();
 const authenticator=require('./routes/authenticator_route');
 const speaker_route=require('./routes/speaker_route');
 const events_route=require('./routes/events_route');
+const users_route=require('./routes/users_route');
 const session=require('express-session')
 
 
@@ -39,6 +40,20 @@ server.use((request,response,next)=>{
     else
         response.redirect('/login')
 })
-server.use('/speaker',speaker_route)
-server.use('/event',events_route)
+
+
+server.use('/user',users_route)
+server.use((request,response,next)=>{
+    if(request.session.role=="admin")
+        next()
+    else if(request.session.role=="speaker")
+        response.redirect('/user/profile')
+    else
+        response.redirect('/login')
+})
+
+
+
+server.use('/admin',speaker_route)
+server.use('/admin/event',events_route)
 

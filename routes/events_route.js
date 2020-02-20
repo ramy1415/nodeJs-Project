@@ -36,9 +36,10 @@ events_route.get('/add', (request, response) => {
 events_route.post('/add', (request, response) => {
     let newEvent = new mongoose.model('events')(request.body)
     newEvent.save().then((data) => {
-        events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
-            if (error) return handleError(error);
+        events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').then((events_details)=>{
             response.render('events/list.ejs',{events_details})
+        }).catch((error)=>{
+            console.log(error+"")
         })
     }).catch((error) => {
         console.log("" + error)
