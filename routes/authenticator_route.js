@@ -39,6 +39,7 @@ authenticator.post('/login',(request,response,next)=>{
         if(speaker){
             request.session.role="speaker"
             request.session.UserName=request.body.UserName
+            request.session.UserId=speaker._id
             response.redirect('/user/profile')
         }
         else
