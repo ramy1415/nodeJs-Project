@@ -6,9 +6,20 @@ speakerSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    UserName:String,
-    Password:String,
-    Address:{city:String,street:String,building:Number}
+    UserName:{
+        type:String,
+        required:true,
+        unique:true   
+    },
+    Password:{
+        type:String,
+        required:true 
+    },
+    Address:{city:String,street:String,building:Number},
+    Avatar:{
+        type:String,
+        required:true  
+    },
 
 });
 mongoose.model("speaker",speakerSchema);

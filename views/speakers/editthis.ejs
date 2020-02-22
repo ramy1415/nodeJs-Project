@@ -12,12 +12,13 @@
         }
     </style>
 </head>
-
 <body>
     <%- include('../partials/nav.ejs') %>
+    <%- include('../partials/chat.ejs') %>
+
     <div class="container h-100">
         <div class="row h-100 align-items-center">
-            <form class="col" action="/admin/speaker/editthis" method="POST">
+            <form class="col" action="/admin/speaker/editthis" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="exampleInputEmail1">_Id</label>
                     <input type="text" readonly value="<%= data._id %>" name="_id" class="form-control" id="exampleInputEmail1"
@@ -30,12 +31,12 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">UserName</label>
-                    <input type="text" value="<%= data.UserName %>" name="UserName" class="form-control"
+                    <input type="text" readonly value="<%= data.UserName %>" name="UserName" class="form-control"
                         id="exampleInputPassword1">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="Password" value="<%= data.Password %>" name="Password" class="form-control"
+                    <input readonly type="Password" value="<%= data.Password %>" name="Password" class="form-control"
                         id="exampleInputPassword1">
                 </div>
                 <div class="form-group">
@@ -53,11 +54,14 @@
                     <input type="text" value="<%= data.Address.building %>" name="building" class="form-control"
                         id="exampleInputPassword1">
                 </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Avatar</label>
+                    <input type="file" name="avatar" />
+                </div>
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
         </div>
     </div>
-
 </body>
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">

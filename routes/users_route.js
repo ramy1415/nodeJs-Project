@@ -1,6 +1,7 @@
 const express=require('express');
 const users=express.Router();
 const mongoose=require('mongoose')
+const bcrypt = require('bcrypt');
 require('../model/speakerModel')
 users.use((request,response,next)=>{
     if(request.session.role=="admin")
@@ -31,22 +32,24 @@ users.get('/edit',(req,res)=>{
 })
 
 
-users.post('/edit',(request,response)=>{
-    console.log("editt = "+request.body.id)
-    mongoose.model('speaker').updateOne({_id:request.session.UserId},{ $set: {
-        FullName:request.body.FullName,
-        UserName:request.body.UserName,
-        Password:request.body.Password,
-        Address:{
-            city:request.body.city,
-            street:request.body.street,
-            building:request.body.building
-        }
-    } }).then((success)=>{
-        response.redirect('/user/profile')
-    }).catch((error)=>{
-        response.send("edit failed")
-    })
+users.post('/edit',async(request,response)=>{
+    await bcrypt.hash(request.body.Password, 10, function(err, hash) {
+        mongoose.model('speaker').updateOne({_id:request.session.UserId},{ $set: {
+            FullName:request.body.FullName,
+            UserName:request.body.UserName,
+            Password:hash,
+            Address:{
+                city:request.body.city,
+                street:request.body.street,
+                building:request.body.building
+            }
+        } }).then((success)=>{
+            response.redirect('/user/profile')
+        }).catch((error)=>{
+            response.send("edit failed")
+        })
+    });
+    
 })
 
 

@@ -15,9 +15,11 @@
 
 <body>
     <%- include('../partials/nav.ejs') %>
+    <%- include('../partials/chat.ejs') %>
+
   <div class="container h-100">
     <div class="row h-100 align-items-center">
-      <form class="col" action="/admin/speaker/add" method="POST">
+      <form class="col" action="/admin/speaker/add" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="exampleInputEmail1">_Id</label>
           <input type="text" id="id" name="_id" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -45,6 +47,10 @@
         <div class="form-group">
           <label for="exampleInputPassword1">building</label>
           <input type="text" name="Address.building" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Photo</label>
+          <input type="file" name="avatar" />
         </div>
         <button onclick="addspeaker()" class="btn btn-primary">Add New Speaker</button>
       </form>

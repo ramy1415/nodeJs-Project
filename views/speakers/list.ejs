@@ -14,12 +14,14 @@
 </head>
 <body>
   <%- include('../partials/nav.ejs') %>
+  <%- include('../partials/chat.ejs') %>
   <div class="container h-100">
     <div class="row h-100 align-items-center">
       <table class="table">
           <thead>
               <tr>
                   <th>_id</th>
+                  <th>Avatar</th>
                   <th>FullName</th>
                   <th>UserName</th>
                   <th>Password</th>
@@ -34,6 +36,7 @@
             <% speakers_details.forEach((speaker)=>{ %>
               <tr scope="row">
                 <td><%=speaker._id %></td>
+                <td><img src="/images/<%= speaker.Avatar %>" alt="" style="width: 50px; height: 50px;"></td>
                 <td><%=speaker.FullName %></td>
                 <td><%=speaker.UserName %></td>
                 <td><%=speaker.Password %></td>
