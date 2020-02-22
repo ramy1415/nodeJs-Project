@@ -1,7 +1,9 @@
 let mongoose=require('mongoose');
+const autoIncrement = require('mongoose-auto-increment-reference');
+var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb");
+autoIncrement.initialize(connection);
 
 let eventsSchema=new mongoose.Schema({
-    _id:Number,
     title:{
         type:String,
         required:true
@@ -17,4 +19,5 @@ let eventsSchema=new mongoose.Schema({
     }]
 })
 
+eventsSchema.plugin(autoIncrement.plugin, 'events');
 mongoose.model('events',eventsSchema)

@@ -14,7 +14,6 @@ server.listen(8082);
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
 
-
 server.set('view-engine','ejs')
 server.use(cookieParser())
 server.use(session({
@@ -35,6 +34,7 @@ mongoose.connect("mongodb://localhost:27017/eventsdb",{useNewUrlParser: true,use
 }).catch((error)=>{
     console.log("not connected")
 })
+
 
 server.get('',(request,response,next)=>{
     response.render('speakers/login.ejs')

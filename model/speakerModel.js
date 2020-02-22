@@ -1,7 +1,11 @@
 let mongoose=require('mongoose');
+const autoIncrement = require('mongoose-auto-increment-reference');
+var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb");
+autoIncrement.initialize(connection);
 
+
+autoIncrement.initialize(connection);
 speakerSchema=new mongoose.Schema({
-    _id:Number,
     FullName:{
         type:String,
         required:true
@@ -22,4 +26,5 @@ speakerSchema=new mongoose.Schema({
     },
 
 });
+speakerSchema.plugin(autoIncrement.plugin, 'speaker');
 mongoose.model("speaker",speakerSchema);
