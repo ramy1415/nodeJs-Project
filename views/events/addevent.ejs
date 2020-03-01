@@ -58,6 +58,24 @@
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
 <script>
+  
+  $(function(){
+    $("select[name='mainSpeaker']").on('change',(event)=>{
+      console.log($(event.target).val())
+      $("select[name='otherSpeakers']>option").show();
+      $(`select[name='otherSpeakers']>option[value='${$(event.target).val()}']`).hide();
+    })
+
+
+    $("select[name='otherSpeakers']").on('change',(event)=>{
+      $("select[name='mainSpeaker']>option").show();
+      $(event.target).val().forEach(element => {
+        $(`select[name='mainSpeaker']>option[value='${element}']`).hide();
+      });
+    })
+    
+  });
+
   function addevent() {
     idd = $("#id").val()
     $.ajax({

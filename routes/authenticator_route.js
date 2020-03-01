@@ -30,19 +30,22 @@ authenticator.get('/register',(request,response)=>{
     response.render('speakers/register.ejs')
 })
 authenticator.post('/register',(request,response)=>{
-    // console.log(request.body.avatar)
     upload(request,response,(err)=>{
         if(err){
             console.log("error"+err)
         }else{
             bcrypt.hash(request.body.Password, 10, function(err, hash) {
-                request.body.Password= hash
+                if(request.body.Password!="")
+                    request.body.Password= hash
                 let newSpeaker=new mongoose.model('speaker')(
                     request.body
                 )
-                if(request.file)
+                if(request.file){
                     newSpeaker.Avatar=request.file.filename
-                console.log(newSpeaker)
+                }else{
+                    newSpeaker.Avatar="avatar-anon.jpg"
+                }
+                
                 newSpeaker.save().then((data)=>{
                     response.redirect('/login')
                 }).catch((error)=>{
@@ -51,21 +54,16 @@ authenticator.post('/register',(request,response)=>{
             });
         }
         
-    })
-    var newPass;
-        
+    })        
 })
 
 authenticator.post('/login',(request,response,next)=>{
     if(request.body.UserName=="eman"&&request.body.Password=="123"){
         request.session.role="admin"
         request.session.UserName=request.body.UserName
-        console.log('hi eman')
         response.redirect('/admin/profile')
-        request.flash("hi eman")
         return;
     }
-    
     speakers.findOne({UserName:request.body.UserName}).then((speaker)=>{
         
         bcrypt.compare(request.body.Password, speaker.Password).then(function(result) {

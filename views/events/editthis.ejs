@@ -77,5 +77,31 @@
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
+<script>
+$(function(){
+    $(`select[name='otherSpeakers']>option[value='${$("select[name='mainSpeaker']").val()}']`).hide();  //hiding mainSpeaker from otherSpeakers at start
+    
+    $("select[name='otherSpeakers']").val().forEach(element => {    //hiding otherSpeakers from mainSpeaker at start
+        $(`select[name='mainSpeaker']>option[value='${element}']`).hide();
+      });
 
+
+    //hiding mainSpeaker from otherSpeakers at change  
+    $("select[name='mainSpeaker']").on('change',(event)=>{
+      console.log($(event.target).val())
+      $("select[name='otherSpeakers']>option").show();
+      $(`select[name='otherSpeakers']>option[value='${$(event.target).val()}']`).hide();
+    })
+
+    //hiding otherSpeakers from mainSpeaker at change
+    $("select[name='otherSpeakers']").on('change',(event)=>{
+      $("select[name='mainSpeaker']>option").show();
+      $(event.target).val().forEach(element => {
+        $(`select[name='mainSpeaker']>option[value='${element}']`).hide();
+      });
+    })
+    
+  });
+
+</script>
 </html>

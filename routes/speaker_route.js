@@ -5,6 +5,7 @@ require('../model/speakerModel')
 let mongoose=require('mongoose');
 const path=require('path')
 const multer=require('multer')
+const bcrypt = require('bcrypt');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './public/images')
@@ -35,21 +36,24 @@ speaker.get('/speaker/add',(request,response,next)=>{
 speaker.post('/speaker/add',(request,response)=>{
     upload(request,response,(err)=>{
         if(err){
-            console.log(err)
+            console.log("error"+err)
         }else{
-            let newSpeaker=new mongoose.model('speaker')(
-                request.body
-            )
-            if(request.file)
-                newSpeaker.Avatar=request.file.filename
-            newSpeaker.save().then((data)=>{
-                request.flash("added")
-                response.redirect('/admin/speaker/list')
-            }).catch((error)=>{
-                console.log(error+"")
-            })
+            bcrypt.hash(request.body.Password, 10, function(err, hash) {
+                request.body.Password= hash
+                let newSpeaker=new mongoose.model('speaker')(
+                    request.body
+                )
+                if(request.file)
+                    newSpeaker.Avatar=request.file.filename
+                newSpeaker.save().then((data)=>{
+                    response.redirect('/admin/speaker/list')
+                }).catch((error)=>{
+                    response.send(error+"")
+                })
+            });
         }
-    })
+        
+    }) 
     
 })
 speaker.get('/speaker/list',(request,response)=>{
@@ -68,25 +72,24 @@ speaker.get('/speaker/editthis/:_id',(request,response)=>{
 })
 
 speaker.post('/speaker/editThis',(request,response)=>{
-    upload(request,response,(err)=>{
-        if(err){
-            response.redirect('/admin/speaker/list')
-        }else{
-            mongoose.model('speaker').updateOne({_id:request.body._id},{ $set: {
-                FullName:request.body.FullName,
-                Address:{
-                    city:request.body.city,
-                    street:request.body.street,
-                    building:request.body.building,
-                },
-                Avatar:request.file.filename
-            } },function(err, res) {
-                if (err) throw err;
+        upload(request,response,(err)=>{
+            if(err){
                 response.redirect('/admin/speaker/list')
-              })
-        }
-    })
-    
+            }else{
+                mongoose.model('speaker').updateOne({_id:request.body._id},{ $set: {
+                    FullName:request.body.FullName,
+                    Address:{
+                        city:request.body.city,
+                        street:request.body.street,
+                        building:request.body.building,
+                    },
+                    Avatar:request.file.filename
+                } },function(err, res) {
+                    if (err) throw err;
+                    response.redirect('/admin/speaker/list')
+                  })
+            }
+        })
 })
 speaker.get('/speaker/delete/',(request,response)=>{
     mongoose.model('speaker').find({},{_id:1,UserName:1}).then((speakers)=>{

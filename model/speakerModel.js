@@ -8,21 +8,21 @@ autoIncrement.initialize(connection);
 speakerSchema=new mongoose.Schema({
     FullName:{
         type:String,
-        required:true
+        required:[true,"Full name is required"],
+        // match:"[a-zA-Z]{3,}"
     },
     UserName:{
         type:String,
-        required:true,
+        required:[true,"User name is required"],
         unique:true   
     },
     Password:{
         type:String,
-        required:true 
+        required:[true,"Password is required"],
     },
     Address:{city:String,street:String,building:Number},
     Avatar:{
-        type:String,
-        required:true  
+        type:String, 
     },
 
 });
