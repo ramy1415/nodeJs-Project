@@ -6,6 +6,7 @@ const speaker_route=require('./routes/speaker_route');
 const events_route=require('./routes/events_route');
 const users_route=require('./routes/users_route');
 const session=require('express-session')
+const flash = require('connect-flash');
 const path = require('path');
 const mongoose=require('mongoose');
 server.listen(8082);
@@ -16,6 +17,7 @@ server.set('view-engine','ejs')
 server.use(session({
     secret:"ramy"
 }))
+server.use(flash());
 server.use(express.static(path.join(__dirname,'/public')))
 server.use(express.static(path.join(__dirname,'node_modules/jquery/dist')))
 server.use(express.static(path.join(__dirname,'node_modules/bootstrap/dist')))

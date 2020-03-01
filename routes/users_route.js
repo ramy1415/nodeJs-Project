@@ -3,6 +3,7 @@ const users=express.Router();
 const mongoose=require('mongoose')
 const bcrypt = require('bcrypt');
 require('../model/speakerModel')
+let speakers = mongoose.model('speaker');
 users.use((request,response,next)=>{
     if(request.session.role=="admin")
         response.redirect('/admin/profile')
@@ -17,7 +18,11 @@ users.use((request,response,next)=>{
 })
 
 users.get('/profile',(req,res)=>{
-    res.render("users/profilespeaker.ejs")
+    speakers.findOne({UserName:req.session.UserName}).then((speaker)=>{
+        res.render("users/profilespeaker.ejs",{speaker})
+    }).catch((error)=>{
+        console.log("/profile->"+error)
+    })
 })
 
 
@@ -44,6 +49,7 @@ users.post('/edit',async(request,response)=>{
                 building:request.body.building
             }
         } }).then((success)=>{
+            request.session.UserName=request.body.UserName
             response.redirect('/user/profile')
         }).catch((error)=>{
             response.send("edit failed")

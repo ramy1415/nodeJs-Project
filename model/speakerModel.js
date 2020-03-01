@@ -8,19 +8,33 @@ autoIncrement.initialize(connection);
 speakerSchema=new mongoose.Schema({
     FullName:{
         type:String,
-        required:[true,"Full name is required"],
-        // match:"[a-zA-Z]{3,}"
+        required:true,
+        match: /[a-zA-Z]{3,}/
     },
     UserName:{
         type:String,
-        required:[true,"User name is required"],
-        unique:true   
+        required:true,
+        unique:true,
+        match: /[a-zA-Z]{3,}/  
+        // match: /\S+@\S+\.\S+/  
     },
     Password:{
         type:String,
-        required:[true,"Password is required"],
+        required:true,
     },
-    Address:{city:String,street:String,building:Number},
+    Address:{
+        city:{
+            type:String,
+            required:true,
+        },
+        street:{
+            type:String,
+            required:true,
+        },
+        building:{
+            type:Number,
+            required:true
+        }},
     Avatar:{
         type:String, 
     },

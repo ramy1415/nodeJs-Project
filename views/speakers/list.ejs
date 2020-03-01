@@ -62,8 +62,7 @@
       data:JSON.stringify({id:idd}), 
       dataType:"json", 
       success:function(result){ 
-        $(button).parents('tr').hide('slow')
-        // $(button).parents('tr').remove()
+        $(button).parents('tr').remove()
       }, 
       error:function(error){
         console.log('fail')

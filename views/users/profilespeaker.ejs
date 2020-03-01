@@ -11,6 +11,48 @@
 <body>
     <%- include('../partials/nav2.ejs') %>
     <%- include('../partials/chat.ejs') %>
+
+
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <table class="table">
+              <thead>
+                  <tr class="bg-info">
+                      <th>Avatar</th>
+                      <th>FullName</th>
+                      <th>UserName</th>
+                      <th>city</th>
+                      <th>street</th>
+                      <th>building</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr scope="row">
+                    <td><img src="/images/<%= speaker.Avatar %>" alt="" style="width: 50px; height: 50px;"></td>
+                    <td><%=speaker.FullName %></td>
+                    <td><%=speaker.UserName %></td>
+                    <td><%=speaker.Address.city %></td>
+                    <td><%=speaker.Address.street %></td>
+                    <td><%=speaker.Address.building %></td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    <!-- <div class="container h-100">
+        <div class="h-100 align-items-center">
+            <img src="/images/<%= speaker.Avatar %>" alt="" style="width: 50px; height: 50px;">
+          <p class="bg-primary">User name : </p>
+          <p class="bg-primary">User name : </p>
+          <p>Full name : </p>
+          <p>city : </p>
+          <p>street : </p>
+          <p>building : </p>
+        </div>
+    </div> -->
+
 </body>
 
 <script src="/jquery.min.js"></script>

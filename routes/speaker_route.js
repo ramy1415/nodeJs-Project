@@ -33,29 +33,31 @@ speaker.use((request,response,next)=>{
 speaker.get('/speaker/add',(request,response,next)=>{
     response.render('speakers/add.ejs')
 })
-speaker.post('/speaker/add',(request,response)=>{
-    upload(request,response,(err)=>{
-        if(err){
-            console.log("error"+err)
-        }else{
-            bcrypt.hash(request.body.Password, 10, function(err, hash) {
-                request.body.Password= hash
-                let newSpeaker=new mongoose.model('speaker')(
-                    request.body
-                )
-                if(request.file)
-                    newSpeaker.Avatar=request.file.filename
-                newSpeaker.save().then((data)=>{
-                    response.redirect('/admin/speaker/list')
-                }).catch((error)=>{
-                    response.send(error+"")
-                })
-            });
-        }
+
+// speaker.post('/speaker/add',(request,response)=>{
+//     upload(request,response,(err)=>{
+//         if(err){
+//             console.log("error"+err)
+//         }else{
+//             bcrypt.hash(request.body.Password, 10, function(err, hash) {
+//                 request.body.Password= hash
+//                 let newSpeaker=new mongoose.model('speaker')(
+//                     request.body
+//                 )
+//                 if(request.file)
+//                     newSpeaker.Avatar=request.file.filename
+//                 newSpeaker.save().then((data)=>{
+//                     response.redirect('/admin/speaker/list')
+//                 }).catch((error)=>{
+//                     response.send(error+"")
+//                 })
+//             });
+//         }
         
-    }) 
+//     }) 
     
-})
+// })
+
 speaker.get('/speaker/list',(request,response)=>{
     mongoose.model('speaker').find({}).then((speakers_details)=>{
         response.render('speakers/list.ejs',{speakers_details})

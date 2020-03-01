@@ -20,14 +20,15 @@ const storage = multer.diskStorage({
 
 
 authenticator.get('/login',(request,response)=>{
-    response.render('speakers/login.ejs')
+    response.render('speakers/login.ejs',{notfound: request.flash('user'),wrongpassword:request.flash('password')})
 });
 authenticator.get('/logout', (request, response) => {
     request.session.destroy();
     response.redirect('/login')
 })
 authenticator.get('/register',(request,response)=>{
-    response.render('speakers/register.ejs')
+    request.flash("error","")
+    response.render('speakers/register.ejs',{error:request.flash("error")})
 })
 authenticator.post('/register',(request,response)=>{
     upload(request,response,(err)=>{
@@ -47,9 +48,13 @@ authenticator.post('/register',(request,response)=>{
                 }
                 
                 newSpeaker.save().then((data)=>{
-                    response.redirect('/login')
+                    if(request.session.role=="admin")
+                        response.redirect('/admin/speaker/list')
+                    else
+                        response.redirect('/login')
                 }).catch((error)=>{
-                    response.send(error+"")
+                    request.flash("error",error)
+                    response.render('speakers/register.ejs',{error:request.flash("error")})
                 })
             });
         }
@@ -58,6 +63,7 @@ authenticator.post('/register',(request,response)=>{
 })
 
 authenticator.post('/login',(request,response,next)=>{
+    console.log(request.body.Password)
     if(request.body.UserName=="eman"&&request.body.Password=="123"){
         request.session.role="admin"
         request.session.UserName=request.body.UserName
@@ -74,13 +80,15 @@ authenticator.post('/login',(request,response,next)=>{
                 response.redirect('/user/profile')
             }
             else
-                response.redirect('/login')
+            request.flash('password', 'Wrong Password')
+            request.flash("user","")
+            response.render('speakers/login.ejs',{ wrongpassword: request.flash('password'),notfound: request.flash('user') })
         });
-        
-        
     }).catch((error)=>{
-        console.log(error+"")
+        console.log("login->"+error)
+        request.flash('password', '')
+        request.flash("user",request.body.UserName+" not found")
+        response.render('speakers/login.ejs',{ wrongpassword: request.flash('password'),notfound: request.flash('user') })
     })
 })
-
 module.exports=authenticator;
