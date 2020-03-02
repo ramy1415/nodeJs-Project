@@ -20,6 +20,7 @@ speakerSchema=new mongoose.Schema({
     Password:{
         type:String,
         required:true,
+        match:/.{6,}/
     },
     Address:{
         city:{

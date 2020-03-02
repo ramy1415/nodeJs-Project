@@ -14,13 +14,13 @@
 
 
     <div class="container h-100">
-      <h1 class="text-center" style="color: brown;">Main Speaker</h1>
+      <h1 class="text-center" style="color: brown;">Joined As A Main Speaker</h1>
 
       <div class="row h-100 align-items-center">
         <table class="table">
             <thead>
-                <tr>
-                    <th>_id</th>
+                <tr class="table-warning">
+                    <!-- <th>_id</th> -->
                     <th>title</th>
                     <th>event_date</th>
                     <th>mainSpeaker</th>
@@ -28,10 +28,9 @@
                     <th>leave</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-primary">
               <% mainSpeaker_list.forEach((event)=>{ %>
                 <tr scope="row">
-                  <td><%=event._id %></td>
                   <td><%=event.title %></td>
                   <td><%=event.event_date %></td>
                   
@@ -51,7 +50,7 @@
                   <% }else{ %>
                     <td></td>
                   <% } %>
-                  <td><a id="del" onclick="leaveMain(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">leave</a></td>
+                  <td><a id="del" onclick="leaveMain(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-danger"  role="button">leave Main Speaker</a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -59,13 +58,13 @@
 
 
       </div>
-      <h1 class="text-center" style="color: brown;">Other Speaker</h1>
+      <h1 class="text-center" style="color: brown;">Joined As An Other Speaker</h1>
 
         <div class="row h-100 align-items-center">
         <table class="table">
             <thead>
-                <tr>
-                    <th>_id</th>
+                <tr class="table-warning">
+                    <!-- <th>_id</th> -->
                     <th>title</th>
                     <th>event_date</th>
                     <th>mainSpeaker</th>
@@ -73,10 +72,9 @@
                     <th>leave</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-primary">
               <% otherSpeakers_list.forEach((event)=>{ %>
                 <tr scope="row">
-                  <td><%=event._id %></td>
                   <td><%=event.title %></td>
                   <td><%=event.event_date %></td>
                   
@@ -96,7 +94,7 @@
                   <% }else{ %>
                     <td></td>
                   <% } %>
-                  <td><a id="del" onclick="leaveOthers(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">leave</a></td>
+                  <td><a id="del" onclick="leaveOthers(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-danger"  role="button">leave Other Speakers</a></td>
                 </tr>
               <% }) %>
             </tbody>

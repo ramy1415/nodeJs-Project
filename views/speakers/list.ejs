@@ -19,7 +19,7 @@
     <div class="row h-100 align-items-center">
       <table class="table">
           <thead>
-              <tr>
+              <tr class="table-warning">
                   <th>_id</th>
                   <th>Avatar</th>
                   <th>FullName</th>
@@ -32,7 +32,7 @@
                   <th>delete</th>
               </tr>
           </thead>
-          <tbody>
+          <tbody class="table-primary">
             <% speakers_details.forEach((speaker)=>{ %>
               <tr scope="row">
                 <td><%=speaker._id %></td>
@@ -44,7 +44,7 @@
                 <td><%=speaker.Address.street %></td>
                 <td><%=speaker.Address.building %></td>
                 <td><a name=<%=speaker._id %> class="btn btn-primary" href="/admin/speaker/editthis/<%=speaker._id %>" role="button">edit</a></td>
-                <td><a id="del" onclick="delspeaker(<%= speaker._id %>,this)" name=<%=speaker._id %> class="btn btn-primary"  role="button">delete</a></td>
+                <td><a id="del" style="color: white;" onclick="delspeaker(<%= speaker._id %>,this)" name=<%=speaker._id %> class="btn btn-danger"  role="button">delete</a></td>
               </tr>
             <% }) %>
           </tbody>

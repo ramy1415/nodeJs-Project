@@ -25,6 +25,8 @@
         <div class="form-group">
           <label for="exampleInputPassword1">FullName</label>
           <input type="text" name="FullName" class="form-control" id="exampleInputPassword1">
+          <small id="emailHelp" class="form-text text-muted">at least 3 characters no numbers</small>
+
           <% if(error.toString().includes("FullName")){ %>
             <small class="text-danger">invalid FullName</small>
           <% } %>
@@ -32,6 +34,8 @@
         <div class="form-group">
           <label for="exampleInputPassword1">UserName</label>
           <input type="text" name="UserName" class="form-control" id="exampleInputPassword1">
+          <small id="emailHelp" class="form-text text-muted">at least 3 characters no numbers</small>
+
           <% if(error.toString().includes("UserName")){ %>
             <small class="text-danger">invalid UserName</small>
           <% } %>
@@ -39,6 +43,8 @@
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input type="Password" name="Password" class="form-control" id="exampleInputPassword1">
+          <small id="emailHelp" class="form-text text-muted">at least 6 characters</small>
+
           <% if(error.toString().includes("Password")){ %>
             <small class="text-danger">invalid Password</small>
           <% } %>
@@ -46,6 +52,7 @@
         <div class="form-group">
           <label for="exampleInputPassword1">city</label>
           <input type="text" name="Address.city" class="form-control" id="exampleInputPassword1">
+          
           <% if(error.toString().includes("Address.city")){ %>
             <small class="text-danger">invalid City</small>
           <% } %>
@@ -60,12 +67,14 @@
         <div class="form-group">
           <label for="exampleInputPassword1">building</label>
           <input type="text" name="Address.building" class="form-control" id="exampleInputPassword1">
+          <small id="emailHelp" class="form-text text-muted">Numbers Only</small>
           <% if(error.toString().includes("Address.building")){ %>
             <small class="text-danger">invalid Address</small>
           <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Photo</label>
+          <small id="emailHelp" class="form-text text-muted">will set to a default img if not choosen</small>
           <input type="file" name="avatar" />
         </div>
         <button type="submit" class="btn btn-primary">Register</button>

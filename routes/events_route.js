@@ -62,7 +62,7 @@ events_route.post('/edit', (request, response) => {
     let id = request.body._id;
     mongoose.model('events').findOne({ _id: id }).then((data) => {
         speakers.find({}, { UserName: 1 ,_id:1 }).then((speakers) => {
-            response.render('events/editthis.ejs', { data,speakers })
+            response.render('events/editthis.ejs', { data,speakers,error:"" })
         }).catch((error) => {
             console.log(error + "")
         })

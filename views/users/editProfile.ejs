@@ -27,33 +27,51 @@
                     <label for="exampleInputPassword1">FullName</label>
                     <input type="text" id="Uname" value="<%= data.FullName %>" name="FullName" class="form-control"
                         id="exampleInputPassword1">
+                    <% if(error.toString().includes("FullName")){ %>
+                        <small class="text-danger">invalid FullName</small>
+                    <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">UserName</label>
                     <input type="text" value="<%= data.UserName %>" name="UserName" class="form-control"
                         id="exampleInputPassword1">
+                        <% if(error.toString().includes("UserName")){ %>
+                            <small class="text-danger">invalid UserName</small>
+                        <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input type="Password" value="<%= data.Password %>" name="Password" class="form-control"
                         id="exampleInputPassword1">
+                        <% if(error.toString().includes("Password")){ %>
+                            <small class="text-danger">invalid Password</small>
+                        <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">city</label>
                     <input type="text" value="<%= data.Address.city %>" name="city" class="form-control"
                         id="exampleInputPassword1">
+                        <% if(error.toString().includes("Address.city")){ %>
+                            <small class="text-danger">invalid City</small>
+                        <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">street</label>
                     <input type="text" value="<%= data.Address.street %>" name="street" class="form-control"
                         id="exampleInputPassword1">
+                        <% if(error.toString().includes("Address.street")){ %>
+                            <small class="text-danger">invalid Street</small>
+                        <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">building</label>
                     <input type="text" value="<%= data.Address.building %>" name="building" class="form-control"
                         id="exampleInputPassword1">
+                        <% if(error.toString().includes("Address.building")){ %>
+                            <small class="text-danger">invalid building</small>
+                        <% } %>
                 </div>
-                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="submit" class="btn btn-primary">Confirm</button>
             </form>
         </div>
     </div>

@@ -40,8 +40,6 @@ speaker.post('/speaker/add',(request,response)=>{
             console.log("error"+err)
         }else{
             bcrypt.hash(request.body.Password, 10, function(err, hash) {
-                if(request.body.Password!="")
-                    request.body.Password= hash
                 let newSpeaker=new mongoose.model('speaker')(
                     request.body
                 )
@@ -51,6 +49,11 @@ speaker.post('/speaker/add',(request,response)=>{
                     newSpeaker.Avatar="avatar-anon.jpg"
                 }
                 newSpeaker.save().then((data)=>{
+                    mongoose.model('speaker').updateOne({_id:data._id},{ $set: {Password:hash}},{runValidators:true}).then((success)=>{    //doing this in order to validate the entered password using mongo 1st then hash it after
+                        console.log("hashed")
+                    }).catch((error)=>{
+                        console.log("no"+error)
+                    })
                     response.redirect('/admin/speaker/list')
                 }).catch((error)=>{
                     request.flash("error",error)
@@ -142,8 +145,6 @@ speaker.post('/speaker/delete', (request, response) => {
         response.redirect('/admin/speaker/list')
     })
 })
-
-
 speaker.get('/speaker/edit', (request, response) => {
     let id = request.params._id
     mongoose.model('speaker').find({}).then((speakers_data) => {
@@ -154,13 +155,9 @@ speaker.get('/speaker/edit', (request, response) => {
 })
 speaker.post('/speaker/edit', (request, response) => {
     let id = request.body._id
+    console.log("here")
     mongoose.model('speaker').findOne({ _id: id }).then((data) => {
-        response.render('speakers/editthis.ejs', { data })
+        response.render('speakers/editthis.ejs', { data,error:"" })
     })
 })
-
-
-
-
-
 module.exports = speaker

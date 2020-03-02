@@ -39,8 +39,6 @@ authenticator.post('/register',(request,response)=>{
             console.log("error"+err)
         }else{
             bcrypt.hash(request.body.Password, 10, function(err, hash) {
-                if(request.body.Password!="")
-                    request.body.Password= hash
                 let newSpeaker=new mongoose.model('speaker')(
                     request.body
                 )
@@ -49,8 +47,13 @@ authenticator.post('/register',(request,response)=>{
                 }else{
                     newSpeaker.Avatar="avatar-anon.jpg"
                 }
-                
                 newSpeaker.save().then((data)=>{
+                    console.log(data._id)
+                    mongoose.model('speaker').updateOne({_id:data._id},{ $set: {Password:hash}},{runValidators:true}).then((success)=>{    //doing this in order to validate the entered password using mongo 1st then hash it after
+                        console.log("hashed")
+                    }).catch((error)=>{
+                        console.log("no")
+                    })
                     if(request.session.role=="admin")
                         response.redirect('/admin/speaker/list')
                     else
@@ -89,7 +92,7 @@ authenticator.post('/login',(request,response,next)=>{
         });
     }).catch((error)=>{
         console.log("login->"+error)
-        response.render('speakers/login.ejs',{ wrongpassword: "",notfound: "User"+request.body.UserName+" not found" })
+        response.render('speakers/login.ejs',{ wrongpassword: "",notfound: "User "+request.body.UserName+" not found" })
     })
 })
 module.exports=authenticator;

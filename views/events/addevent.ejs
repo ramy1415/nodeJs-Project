@@ -15,6 +15,8 @@
 
 <body>
   <%- include('../partials/nav.ejs') %>
+  <%- include('../partials/chat.ejs') %>
+
   <div class="container h-100">
     <div class="row h-100 align-items-center">
       <form class="col" action="/admin/event/add" method="POST">
@@ -26,6 +28,8 @@
         <div class="form-group">
           <label for="exampleInputPassword1">title</label>
           <input type="text" name="title" class="form-control" id="exampleInputPassword1">
+          <small id="emailHelp" class="form-text text-muted">at least 3 characters no numbers</small>
+
           <% if(message.toString().includes("title")){ %>
             <small class="text-danger">invalid title</small>
           <% } %>
