@@ -1,12 +1,13 @@
 let mongoose=require('mongoose');
 const autoIncrement = require('mongoose-auto-increment-reference');
-var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb");
+var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb",{ useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex: true});
 autoIncrement.initialize(connection);
 
 let eventsSchema=new mongoose.Schema({
     title:{
         type:String,
-        required:true
+        required:true,
+        match: /[a-zA-Z]{3,}/
     },
     event_date:String,
     mainSpeaker:{

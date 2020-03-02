@@ -19,7 +19,7 @@
 
   <div class="container h-100">
     <div class="row h-100 align-items-center">
-      <form class="col" action="/register" method="POST" enctype="multipart/form-data">
+      <form class="col" action="/admin/speaker/add" method="POST" enctype="multipart/form-data">
         <!-- <div class="form-group">
           <label for="exampleInputEmail1">_Id</label>
           <input type="text" id="id" name="_id" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -27,26 +27,44 @@
         <div class="form-group">
           <label for="exampleInputPassword1">FullName</label>
           <input type="text" name="FullName" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("FullName")){ %>
+            <small class="text-danger">invalid FullName</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">UserName</label>
           <input type="text" name="UserName" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("UserName")){ %>
+            <small class="text-danger">invalid UserName</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input type="Password" name="Password" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("Password")){ %>
+            <small class="text-danger">invalid Password</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">city</label>
           <input type="text" name="Address.city" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("Address.city")){ %>
+            <small class="text-danger">invalid City</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">street</label>
           <input type="text" name="Address.street" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("Address.street")){ %>
+            <small class="text-danger">invalid street</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">building</label>
           <input type="text" name="Address.building" class="form-control" id="exampleInputPassword1">
+          <% if(error.toString().includes("Address.building")){ %>
+            <small class="text-danger">invalid bulding</small>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Photo</label>

@@ -9,12 +9,12 @@ let speakers = mongoose.model('speaker');
 
 events_route.use((request,response,next)=>{
     response.locals.UserName=request.session.UserName
+    response.locals.rold=request.session.rold
     next()
 })
 
 events_route.get('/list', (request, response) => {
     events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
-
         if (error) return handleError(error);
         response.render('events/list.ejs',{events_details})
     })
@@ -27,9 +27,9 @@ events_route.use((request,response,next)=>{
 })
 events_route.get('/add', (request, response) => {
     speakers.find({}).then((data) => {
-        response.render('events/addevent.ejs', { data })
+        response.render('events/addevent.ejs', { data,message:"" })
     }).catch((error) => {
-        console.log(error + "")
+        console.log("add get->"+error)
     })
 })
 
@@ -42,7 +42,11 @@ events_route.post('/add', (request, response) => {
             console.log(error+"")
         })
     }).catch((error) => {
-        console.log("" + error)
+        speakers.find({}).then((data) => {
+            response.render('events/addevent.ejs', { data,message:error })
+        }).catch((error) => {
+            console.log(error)
+        })
     });
 })
 events_route.get('/edit', (request, response) => {
@@ -73,7 +77,7 @@ events_route.get('/editthis/:_id',(request,response)=>{
     let id=request.params._id
     mongoose.model('events').findOne({ _id: id }).then((data) => {
         speakers.find({}, { UserName: 1 ,_id:1 }).then((speakers) => {
-            response.render('events/editthis.ejs', { data,speakers })
+            response.render('events/editthis.ejs', { data,speakers,error:"" })
         }).catch((error) => {
             console.log(error + "")
         })
@@ -128,12 +132,22 @@ events_route.post('/editthis',(request,response)=>{
         event_date:request.body.event_date,
         mainSpeaker:request.body.mainSpeaker,
         otherSpeakers:request.body.otherSpeakers,
-        } },function(err, res) {
-        if (err) throw err;
-        events.find({}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, events_details) => {
-            if (error) return handleError(error);
-            response.render('events/list.ejs',{events_details})
-        })
+        } },{runValidators:true},function(error, res) {
+        if (error){
+            mongoose.model('events').findOne({ _id: request.body._id }).then((data) => {
+                speakers.find({}, { UserName: 1 ,_id:1 }).then((speakers) => {
+                    response.render('events/editthis.ejs', { data,speakers,error }) 
+                    return
+                }).catch((error) => {
+                    console.log(error + "123")
+                })
+            }).catch((error) => {
+                console.log(error + "456")
+            })
+        }else{
+            response.redirect("list")
+        }
+        
         // db.close();
       })
 })

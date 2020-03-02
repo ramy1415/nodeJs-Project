@@ -1,6 +1,6 @@
 let mongoose=require('mongoose');
 const autoIncrement = require('mongoose-auto-increment-reference');
-var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb");
+var connection = mongoose.createConnection("mongodb://localhost:27017/eventsdb",{ useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true });
 autoIncrement.initialize(connection);
 
 
@@ -16,7 +16,6 @@ speakerSchema=new mongoose.Schema({
         required:true,
         unique:true,
         match: /[a-zA-Z]{3,}/  
-        // match: /\S+@\S+\.\S+/  
     },
     Password:{
         type:String,
@@ -36,7 +35,7 @@ speakerSchema=new mongoose.Schema({
             required:true
         }},
     Avatar:{
-        type:String, 
+        type:String,
     },
 
 });

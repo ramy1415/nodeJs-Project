@@ -3,6 +3,8 @@ const users=express.Router();
 const mongoose=require('mongoose')
 const bcrypt = require('bcrypt');
 require('../model/speakerModel')
+require('../model/eventsModel')
+let events=mongoose.model('events')
 let speakers = mongoose.model('speaker');
 users.use((request,response,next)=>{
     if(request.session.role=="admin")
@@ -19,6 +21,7 @@ users.use((request,response,next)=>{
 
 users.get('/profile',(req,res)=>{
     speakers.findOne({UserName:req.session.UserName}).then((speaker)=>{
+        // events.find({},{})
         res.render("users/profilespeaker.ejs",{speaker})
     }).catch((error)=>{
         console.log("/profile->"+error)

@@ -27,11 +27,18 @@
                     <label for="exampleInputPassword1">title</label>
                     <input type="text" value="<%= data.title %>" name="title" class="form-control"
                         id="exampleInputPassword1">
+                    <% if(error.toString().includes("title")){ %>
+                        <small class="text-danger">invalid title</small>
+                    <% } %>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">event_date</label>
-                    <input type="date" value="<%= data.event_date %>" name="event_date" class="form-control"
-                        id="exampleInputPassword1">
+                    <%var today = new Date();%>
+                    <%var dd = String(today.getDate()).padStart(2, '0');%>
+                    <%var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!%>
+                    <%var yyyy = today.getFullYear();%>
+                    <%today = yyyy+'-' + mm + '-' +dd ;%>
+                    <input type="date" required min="<%= today %>" max="2020-12-31" value="<%= data.event_date %>" name="event_date" class="form-control" id="exampleInputPassword1">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">mainSpeaker</label>

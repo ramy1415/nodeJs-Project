@@ -6,7 +6,6 @@ require('../model/speakerModel')
 let speakers = mongoose.model('speaker');
 const bcrypt = require('bcrypt');
 const multer=require('multer')
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './public/images')
@@ -15,9 +14,13 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + req.body.UserName+path.extname(file.originalname))
     }
   })
-   
-  var upload = multer({ storage: storage }).single('avatar')
+var upload = multer({ storage: storage }).single('avatar')
 
+authenticator.use((request,response,next)=>{
+    response.locals.UserName=request.session.UserName
+    response.locals.role=request.session.role
+    next()
+})
 
 authenticator.get('/login',(request,response)=>{
     response.render('speakers/login.ejs',{notfound: request.flash('user'),wrongpassword:request.flash('password')})
@@ -52,6 +55,7 @@ authenticator.post('/register',(request,response)=>{
                         response.redirect('/admin/speaker/list')
                     else
                         response.redirect('/login')
+                    return
                 }).catch((error)=>{
                     request.flash("error",error)
                     response.render('speakers/register.ejs',{error:request.flash("error")})
@@ -63,7 +67,6 @@ authenticator.post('/register',(request,response)=>{
 })
 
 authenticator.post('/login',(request,response,next)=>{
-    console.log(request.body.Password)
     if(request.body.UserName=="eman"&&request.body.Password=="123"){
         request.session.role="admin"
         request.session.UserName=request.body.UserName
@@ -78,17 +81,15 @@ authenticator.post('/login',(request,response,next)=>{
                 request.session.UserName=request.body.UserName
                 request.session.UserId=speaker._id
                 response.redirect('/user/profile')
+                return
             }
             else
-            request.flash('password', 'Wrong Password')
-            request.flash("user","")
-            response.render('speakers/login.ejs',{ wrongpassword: request.flash('password'),notfound: request.flash('user') })
+                response.render('speakers/login.ejs',{ wrongpassword: "Wrong Password",notfound: "" })
+                return
         });
     }).catch((error)=>{
         console.log("login->"+error)
-        request.flash('password', '')
-        request.flash("user",request.body.UserName+" not found")
-        response.render('speakers/login.ejs',{ wrongpassword: request.flash('password'),notfound: request.flash('user') })
+        response.render('speakers/login.ejs',{ wrongpassword: "",notfound: "User"+request.body.UserName+" not found" })
     })
 })
 module.exports=authenticator;
