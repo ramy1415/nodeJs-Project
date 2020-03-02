@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">mainSpeaker</label>
                     <select class="custom-select" name="mainSpeaker">
-                        <option selected disabled>Open this select menu</option>
+                        <option selected></option>
                         <% speakers.forEach((speaker)=>{ %>
                         <% if(data.mainSpeaker==speaker._id) {%>
                         <option selected value=<%= speaker._id %>> <%= speaker.UserName %></option>

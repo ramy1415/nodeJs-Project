@@ -20,12 +20,28 @@ users.use((request,response,next)=>{
 })
 
 users.get('/profile',(req,res)=>{
-    speakers.findOne({UserName:req.session.UserName}).then((speaker)=>{
-        // events.find({},{})
-        res.render("users/profilespeaker.ejs",{speaker})
+    // my_id=req.session.UserId
+    events.find({mainSpeaker:req.session.UserId}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').then((mainSpeaker_list)=>{
+        events.find({otherSpeakers:req.session.UserId}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').then((otherSpeakers_list)=>{
+            res.render("users/profilespeaker.ejs",{mainSpeaker_list,otherSpeakers_list})
+        }).catch((error)=>{
+            console.log(error)
+        })
     }).catch((error)=>{
-        console.log("/profile->"+error)
+        console.log(error)
     })
+    // events.find({mainSpeaker:req.session.UserId}).populate('mainSpeaker', 'UserName').populate('otherSpeakers', 'UserName').exec((error, mainSpeaker_list) => {
+    //     if (error) return handleError(error);
+    //     res.render("users/profilespeaker.ejs",{mainSpeaker_list})
+    // })
+
+
+    // speakers.findOne({UserName:req.session.UserName}).then((speaker)=>{
+    //     // events.find({},{})
+    //     res.render("users/profilespeaker.ejs",{speaker})
+    // }).catch((error)=>{
+    //     console.log("/profile->"+error)
+    // })
 })
 
 
@@ -60,6 +76,33 @@ users.post('/edit',async(request,response)=>{
     });
     
 })
+
+users.post('/leavemain', (request, response) => {
+    // events.findOne({_id:request.body.event}).then((data)=>{
+    //     console.log(data.mainSpeaker.$set())
+    // })
+    events.updateOne({_id:request.body.event}, { $set: { mainSpeaker: null} }, { runValidators: true },).then((success)=>{
+        response.send(success)
+    }).catch((error)=>{
+        console.log(error)
+    })
+    // console.log(request.body.event)
+    // console.log(request.body.my_id)
+})
+
+users.post('/leaveother', (request, response) => {
+    // events.findOne({_id:request.body.event}).then((data)=>{
+    //     console.log(data.mainSpeaker.$set())
+    // })
+    events.updateOne({_id:request.body.event}, { $pull: { otherSpeakers: request.body.my_id} }, { runValidators: true },).then((success)=>{
+        response.send(success)
+    }).catch((error)=>{
+        console.log(error)
+    })
+    // console.log(request.body.event)
+    // console.log(request.body.my_id)
+})
+
 
 
 module.exports=users

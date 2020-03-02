@@ -158,4 +158,9 @@ speaker.post('/speaker/edit', (request, response) => {
         response.render('speakers/editthis.ejs', { data })
     })
 })
+
+
+
+
+
 module.exports = speaker

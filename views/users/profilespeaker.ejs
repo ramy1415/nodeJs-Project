@@ -14,47 +14,135 @@
 
 
     <div class="container h-100">
-        <div class="row h-100 align-items-center">
-          <table class="table">
-              <thead>
-                  <tr class="bg-info">
-                      <th>Avatar</th>
-                      <th>FullName</th>
-                      <th>UserName</th>
-                      <th>city</th>
-                      <th>street</th>
-                      <th>building</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr scope="row">
-                    <td><img src="/images/<%= speaker.Avatar %>" alt="" style="width: 50px; height: 50px;"></td>
-                    <td><%=speaker.FullName %></td>
-                    <td><%=speaker.UserName %></td>
-                    <td><%=speaker.Address.city %></td>
-                    <td><%=speaker.Address.street %></td>
-                    <td><%=speaker.Address.building %></td>
-                  </tr>
-              </tbody>
-          </table>
-        </div>
+      <h1 class="text-center" style="color: brown;">Main Speaker</h1>
+
+      <div class="row h-100 align-items-center">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>title</th>
+                    <th>event_date</th>
+                    <th>mainSpeaker</th>
+                    <th>otherSpeakers</th>
+                    <th>leave</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% mainSpeaker_list.forEach((event)=>{ %>
+                <tr scope="row">
+                  <td><%=event._id %></td>
+                  <td><%=event.title %></td>
+                  <td><%=event.event_date %></td>
+                  
+                  <%if(event.mainSpeaker){ %>
+                  <td><%=event.mainSpeaker.UserName %></td>
+                  <% }else{ %>
+                    <td></td>
+                    <% } %>
+                  <% let otherSpeaakersArr=[] %>
+                  <%if(event.otherSpeakers){ %>
+                  <% event.otherSpeakers.forEach((otherSpeaker)=>{ %>
+                  <% otherSpeaakersArr.push(otherSpeaker.UserName) %>
+                  <%})%>
+                  <td><% otherSpeaakersArr.forEach((other)=>{ %>
+                    <li><%= other %> </li>
+                    <% }) %></td>
+                  <% }else{ %>
+                    <td></td>
+                  <% } %>
+                  <td><a id="del" onclick="leaveMain(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">leave</a></td>
+                </tr>
+              <% }) %>
+            </tbody>
+        </table>
+
+
       </div>
+      <h1 class="text-center" style="color: brown;">Other Speaker</h1>
 
-
-    <!-- <div class="container h-100">
-        <div class="h-100 align-items-center">
-            <img src="/images/<%= speaker.Avatar %>" alt="" style="width: 50px; height: 50px;">
-          <p class="bg-primary">User name : </p>
-          <p class="bg-primary">User name : </p>
-          <p>Full name : </p>
-          <p>city : </p>
-          <p>street : </p>
-          <p>building : </p>
-        </div>
-    </div> -->
-
+        <div class="row h-100 align-items-center">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>title</th>
+                    <th>event_date</th>
+                    <th>mainSpeaker</th>
+                    <th>otherSpeakers</th>
+                    <th>leave</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% otherSpeakers_list.forEach((event)=>{ %>
+                <tr scope="row">
+                  <td><%=event._id %></td>
+                  <td><%=event.title %></td>
+                  <td><%=event.event_date %></td>
+                  
+                  <%if(event.mainSpeaker){ %>
+                  <td><%=event.mainSpeaker.UserName %></td>
+                  <% }else{ %>
+                    <td></td>
+                    <% } %>
+                  <% let otherSpeaakersArr=[] %>
+                  <%if(event.otherSpeakers){ %>
+                  <% event.otherSpeakers.forEach((otherSpeaker)=>{ %>
+                  <% otherSpeaakersArr.push(otherSpeaker.UserName) %>
+                  <%})%>
+                  <td><% otherSpeaakersArr.forEach((other)=>{ %>
+                    <li><%= other %> </li>
+                    <% }) %></td>
+                  <% }else{ %>
+                    <td></td>
+                  <% } %>
+                  <td><a id="del" onclick="leaveOthers(<%=event._id%>,<%= UserId %>,this)" name=<%=event._id %> class="btn btn-primary"  role="button">leave</a></td>
+                </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+    </div>
 </body>
+<script>
+  function leaveMain(event_id,my_id,button){
+    $.ajax({
+      url:"http://localhost:8082/user/leavemain",
+      method:"POST",
+      contentType:"application/json", 
+      data:JSON.stringify({"event":event_id,"my_id":my_id}), 
+      dataType:"json", 
+      success:function(result){ 
+        console.log(button)
+        $(button).parents('tr').remove()
+      }, 
+      error:function(error){
+        console.log('fail')
+      }
 
+    })
+  }
+
+
+  function leaveOthers(event_id,my_id,button){
+    $.ajax({
+      url:"http://localhost:8082/user/leaveother",
+      method:"POST",
+      contentType:"application/json", 
+      data:JSON.stringify({"event":event_id,"my_id":my_id}), 
+      dataType:"json", 
+      success:function(result){ 
+        console.log(button)
+        $(button).parents('tr').remove()
+      }, 
+      error:function(error){
+        console.log('fail')
+      }
+
+    })
+  }
+
+</script>
 <script src="/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <script src="/js/bootstrap.min.js"></script>
