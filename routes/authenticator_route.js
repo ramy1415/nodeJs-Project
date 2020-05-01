@@ -49,8 +49,8 @@ authenticator.post('/register',(request,response)=>{
                 }
                 newSpeaker.save().then((data)=>{
                     console.log(data._id)
-                    mongoose.model('speaker').updateOne({_id:data._id},{ $set: {Password:hash}},{runValidators:true}).then((success)=>{    //doing this in order to validate the entered password using mongo 1st then hash it after
-                        console.log("hashed")
+                    mongoose.model('speaker').updateOne({_id:data._id},{ $set: {Password:hash}},{runValidators:true}).then((success)=>{    
+                        console.log("hashed")   //doing this in order to validate the entered password using mongo 1st then hash it after -- bad solution
                     }).catch((error)=>{
                         console.log("no")
                     })
@@ -70,13 +70,13 @@ authenticator.post('/register',(request,response)=>{
 })
 
 authenticator.post('/login',(request,response,next)=>{
-    if(request.body.UserName=="eman"&&request.body.Password=="123"){
+    if(request.body.UserName=="admin"&&request.body.Password=="123"){    //Admin login
         request.session.role="admin"
         request.session.UserName=request.body.UserName
         response.redirect('/admin/profile')
         return;
     }
-    speakers.findOne({UserName:request.body.UserName}).then((speaker)=>{
+    speakers.findOne({UserName:request.body.UserName}).then((speaker)=>{    //normal user login
         
         bcrypt.compare(request.body.Password, speaker.Password).then(function(result) {
             if(result){
@@ -87,12 +87,12 @@ authenticator.post('/login',(request,response,next)=>{
                 return
             }
             else
-                response.render('speakers/login.ejs',{ wrongpassword: "Wrong Password",notfound: "" })
+                response.render('speakers/login.ejs',{ wrongpassword: "Wrong Password",notfound: "" })  //just for practice
                 return
         });
     }).catch((error)=>{
         console.log("login->"+error)
-        response.render('speakers/login.ejs',{ wrongpassword: "",notfound: "User "+request.body.UserName+" not found" })
+        response.render('speakers/login.ejs',{ wrongpassword: "",notfound: "User "+request.body.UserName+" not found" })    //just for practice
     })
 })
 module.exports=authenticator;

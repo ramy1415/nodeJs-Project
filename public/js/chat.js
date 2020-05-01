@@ -33,7 +33,7 @@ $("#form").on('submit', function (event) {
     <div class="chat-body clearfix">
         <div class="header">
             <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-            <strong class="pull-right primary-font">Bhaumik Patel</strong>
+            <strong class="pull-right primary-font"></strong>
         </div>
         <p>
             ${message}

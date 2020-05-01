@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const path = require('path');
 const mongoose=require('mongoose');
 server.listen(8082);
+console.log("listening on port 8082")
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
 
@@ -30,15 +31,15 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('chat-others',message)
     })
 })
-mongoose.connect("mongodb://localhost:27017/eventsdb",{useNewUrlParser: true,useUnifiedTopology: true,useCreateIndex: true}).then((data)=>{
-    console.log("connected")
+mongoose.connect("mongodb://localhost:27017/eventsdb",{useNewUrlParser: true,useUnifiedTopology: true,useCreateIndex: true}).then((data)=>{ //should be in a separate file
+    console.log("connected to mongoDB")
 }).catch((error)=>{
-    console.log("not connected")
+    console.log("not connected to mongoDB")
 })
 
 
 server.get('',(request,response,next)=>{
-    response.render('speakers/login.ejs')
+    response.redirect('/login')
 })
 
 server.use(authenticator)
